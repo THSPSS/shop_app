@@ -83,7 +83,7 @@ class _HomePageState extends State<HomePage> {
                         fontSize: 16.0,
                       ),
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10.0),
+                          horizontal: 25.0, vertical: 10.0),
                       shape: const RoundedRectangleBorder(
                         side: BorderSide(color: Colors.transparent),
                         borderRadius: BorderRadius.all(
