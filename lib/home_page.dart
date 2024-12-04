@@ -38,17 +38,16 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
+          SizedBox(
             height: 140.0,
             child: Row(
               children: [
                 Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Text('Shoes\nCollection',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 35.0)),
+                      style: Theme.of(context).textTheme.titleLarge),
                 ),
-                Expanded(
+                const Expanded(
                   child: TextField(
                       decoration: InputDecoration(
                     border: border,
