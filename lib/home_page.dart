@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app_flutter/gloabl_variable.dart';
+import 'package:shop_app_flutter/product_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -103,26 +104,15 @@ class _HomePageState extends State<HomePage> {
             child: ListView.builder(
               itemCount: products.length,
               itemBuilder: (context, i) {
-                return Container(
-                  padding: const EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    color: Colors.green.withOpacity(0.6),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(20),
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(products[i]['title'].toString(),
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold)),
-                      Text('\$${products[i]["price"].toString()}',
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold)),
-                      Image.asset(products[i]['imageUrl'].toString())
-                    ],
-                  ),
+                final product = products[i];
+
+                return ProductCard(
+                  title: product['title'].toString(),
+                  price: product['price'] as double,
+                  imageUrl: product['imageUrl'].toString(),
+                  backgroundColor: i.isEven
+                      ? const Color.fromRGBO(245, 247, 249, 1)
+                      : const Color.fromRGBO(216, 240, 253, 1),
                 );
               },
             ),
