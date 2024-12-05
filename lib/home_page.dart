@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app_flutter/gloabl_variable.dart';
 import 'package:shop_app_flutter/product_card.dart';
+import 'package:shop_app_flutter/product_details_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -105,13 +106,25 @@ class _HomePageState extends State<HomePage> {
               itemBuilder: (context, i) {
                 final product = products[i];
 
-                return ProductCard(
-                  title: product['title'].toString(),
-                  price: product['price'] as double,
-                  imageUrl: product['imageUrl'].toString(),
-                  backgroundColor: i.isOdd
-                      ? const Color.fromRGBO(245, 247, 249, 1)
-                      : const Color.fromRGBO(216, 240, 253, 1),
+                return GestureDetector(
+                  onTap: () {
+                    //stacking pages
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return ProductDetailsPage(product: product);
+                        },
+                      ),
+                    );
+                  },
+                  child: ProductCard(
+                    title: product['title'].toString(),
+                    price: product['price'] as double,
+                    imageUrl: product['imageUrl'].toString(),
+                    backgroundColor: i.isOdd
+                        ? const Color.fromRGBO(245, 247, 249, 1)
+                        : const Color.fromRGBO(216, 240, 253, 1),
+                  ),
                 );
               },
             ),

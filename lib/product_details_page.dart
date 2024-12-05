@@ -1,13 +1,24 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
-class ProductDetailsPage extends StatelessWidget {
+class ProductDetailsPage extends StatefulWidget {
   final Map<String, Object> product;
   const ProductDetailsPage({
     super.key,
     required this.product,
   });
+
+  @override
+  State<ProductDetailsPage> createState() => _ProductDetailsPageState();
+}
+
+class _ProductDetailsPageState extends State<ProductDetailsPage> {
+  int? selectedSize;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   selectedSize = (widget.product['size'] as List<int>)[0];
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +29,10 @@ class ProductDetailsPage extends StatelessWidget {
       body: Column(
         children: [
           Text(
-            product['title'] as String,
+            widget.product['title'] as String,
             style: Theme.of(context).textTheme.titleLarge,
           ),
-          Image.asset(product['imageUrl'] as String),
+          Image.asset(widget.product['imageUrl'] as String),
           Expanded(
             child: Container(
               decoration: const BoxDecoration(
@@ -34,7 +45,7 @@ class ProductDetailsPage extends StatelessWidget {
                     height: 40,
                   ),
                   Text(
-                    '\$${product['price']}',
+                    '\$${widget.product['price']}',
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   const SizedBox(
@@ -44,11 +55,15 @@ class ProductDetailsPage extends StatelessWidget {
                     height: 80.0,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: (product['sizes'] as List<int>).length,
+                      itemCount: (widget.product['sizes'] as List<int>).length,
                       itemBuilder: (context, i) {
-                        final size = (product['sizes'] as List<int>)[i];
+                        final size = (widget.product['sizes'] as List<int>)[i];
                         return GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            setState(() {
+                              selectedSize = size;
+                            });
+                          },
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Chip(
@@ -58,6 +73,9 @@ class ProductDetailsPage extends StatelessWidget {
                                   Radius.circular(12),
                                 ),
                               ),
+                              backgroundColor: selectedSize == size
+                                  ? Theme.of(context).colorScheme.primary
+                                  : null,
                             ),
                           ),
                         );
@@ -65,7 +83,7 @@ class ProductDetailsPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(
-                    height: 25.0,
+                    height: 15.0,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -74,6 +92,7 @@ class ProductDetailsPage extends StatelessWidget {
                           backgroundColor:
                               Theme.of(context).colorScheme.primary,
                           foregroundColor: Colors.black,
+                          minimumSize: const Size(double.infinity, 50),
                           padding: const EdgeInsets.symmetric(
                               horizontal: 50, vertical: 20),
                           textStyle: const TextStyle(fontSize: 20.0)),
