@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'cart_provider.dart';
 
 class ProductDetailsPage extends StatefulWidget {
   final Map<String, Object> product;
@@ -13,6 +16,14 @@ class ProductDetailsPage extends StatefulWidget {
 
 class _ProductDetailsPageState extends State<ProductDetailsPage> {
   int? selectedSize;
+
+  //because of state class we can use context outside of build context
+  void onTap() {
+    //add product to cart
+    //after add Provider using listen:false to state change
+    Provider.of<CartProvider>(context, listen: false)
+        .addProduct(widget.product);
+  }
 
   // @override
   // void initState() {
@@ -96,10 +107,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 50, vertical: 20),
                           textStyle: const TextStyle(fontSize: 20.0)),
-                      onPressed: () {
-                        //add product to cart
-                        print('pressed');
-                      },
+                      onPressed: onTap,
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
