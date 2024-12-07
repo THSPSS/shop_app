@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app_flutter/gloabl_variable.dart';
-import 'package:shop_app_flutter/product_card.dart';
+import 'package:shop_app_flutter/widgets/product_card.dart';
 
-import 'product_details_page.dart';
+import '../pages/product_details_page.dart';
 
 class ProductList extends StatefulWidget {
   const ProductList({super.key});
@@ -30,6 +30,8 @@ class _ProductListState extends State<ProductList> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     const border = OutlineInputBorder(
       borderSide: BorderSide(color: Color.fromRGBO(225, 225, 225, 1)),
       borderRadius: BorderRadius.horizontal(left: Radius.circular(30.0)),
@@ -101,34 +103,65 @@ class _ProductListState extends State<ProductList> {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: products.length,
-              itemBuilder: (context, i) {
-                final product = products[i];
+            child: GridView.builder(
+                itemCount: products.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: size.width > 650 ? 2 : 1,
+                    childAspectRatio: size.width > 650 ? 2 : 1),
+                itemBuilder: (context, i) {
+                  final product = products[i];
 
-                return GestureDetector(
-                  onTap: () {
-                    //stacking pages
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return ProductDetailsPage(product: product);
-                        },
-                      ),
-                    );
-                  },
-                  child: ProductCard(
-                    title: product['title'].toString(),
-                    price: product['price'] as double,
-                    imageUrl: product['imageUrl'].toString(),
-                    backgroundColor: i.isOdd
-                        ? const Color.fromRGBO(245, 247, 249, 1)
-                        : const Color.fromRGBO(216, 240, 253, 1),
-                  ),
-                );
-              },
-            ),
+                  return GestureDetector(
+                    onTap: () {
+                      //stacking pages
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return ProductDetailsPage(product: product);
+                          },
+                        ),
+                      );
+                    },
+                    child: ProductCard(
+                      title: product['title'].toString(),
+                      price: product['price'] as double,
+                      imageUrl: product['imageUrl'].toString(),
+                      backgroundColor: i.isOdd
+                          ? const Color.fromRGBO(245, 247, 249, 1)
+                          : const Color.fromRGBO(216, 240, 253, 1),
+                    ),
+                  );
+                }),
           )
+          // Expanded(
+          //   child: ListView.builder(
+          //     itemCount: products.length,
+          //     itemBuilder: (context, i) {
+          //       final product = products[i];
+
+          //       return GestureDetector(
+          //         onTap: () {
+          //           //stacking pages
+          //           Navigator.of(context).push(
+          //             MaterialPageRoute(
+          //               builder: (context) {
+          //                 return ProductDetailsPage(product: product);
+          //               },
+          //             ),
+          //           );
+          //         },
+          //         child: ProductCard(
+          //           title: product['title'].toString(),
+          //           price: product['price'] as double,
+          //           imageUrl: product['imageUrl'].toString(),
+          //           backgroundColor: i.isOdd
+          //               ? const Color.fromRGBO(245, 247, 249, 1)
+          //               : const Color.fromRGBO(216, 240, 253, 1),
+          //         ),
+          //       );
+          //     },
+          //   ),
+          // )
         ],
       ),
     );

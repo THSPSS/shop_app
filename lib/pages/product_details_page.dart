@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'cart_provider.dart';
+import '../providers/cart_provider.dart';
 
 class ProductDetailsPage extends StatefulWidget {
   final Map<String, Object> product;
@@ -49,7 +49,10 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             widget.product['title'] as String,
             style: Theme.of(context).textTheme.titleLarge,
           ),
-          Image.asset(widget.product['imageUrl'] as String),
+          Image.asset(
+            widget.product['imageUrl'] as String,
+            height: 250,
+          ),
           Expanded(
             child: Container(
               decoration: const BoxDecoration(
@@ -109,7 +112,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                           backgroundColor:
                               Theme.of(context).colorScheme.primary,
                           foregroundColor: Colors.black,
-                          minimumSize: const Size(double.infinity, 50),
+                          fixedSize: const Size(350, 80),
                           padding: const EdgeInsets.symmetric(
                               horizontal: 50, vertical: 20),
                           textStyle: const TextStyle(fontSize: 20.0)),
