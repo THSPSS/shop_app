@@ -15,7 +15,7 @@ class ProductDetailsPage extends StatefulWidget {
 }
 
 class _ProductDetailsPageState extends State<ProductDetailsPage> {
-  int? selectedSize;
+  int? selectedSize = 0;
 
   //because of state class we can use context outside of build context
   void onTap() {
@@ -107,7 +107,17 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 50, vertical: 20),
                           textStyle: const TextStyle(fontSize: 20.0)),
-                      onPressed: onTap,
+                      onPressed: () {
+                        if (selectedSize != 0) {
+                          //set widget product sizes as selected size and add it to the Cart list
+                          widget.product['sizes'] = selectedSize as Object;
+                          Provider.of<CartProvider>(context, listen: false)
+                              .addProduct(widget.product);
+                          print(
+                              Provider.of<CartProvider>(context, listen: false)
+                                  .cart);
+                        }
+                      },
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

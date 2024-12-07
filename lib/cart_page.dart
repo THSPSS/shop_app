@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_app_flutter/cart_provider.dart';
 
 import 'gloabl_variable.dart';
 
@@ -19,9 +21,11 @@ class _CartPageState extends State<CartPage> {
         title: Text('Cart', style: Theme.of(context).textTheme.bodySmall),
       ),
       body: ListView.builder(
-          itemCount: cart.length,
+          itemCount:
+              Provider.of<CartProvider>(context, listen: false).cart.length,
           itemBuilder: (context, i) {
-            final item = cart[i];
+            final item =
+                Provider.of<CartProvider>(context, listen: false).cart[i];
             return ListTile(
               leading: CircleAvatar(
                 backgroundImage: AssetImage(item['imageUrl'] as String),
