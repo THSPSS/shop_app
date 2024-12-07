@@ -48,14 +48,3 @@ final products = [
     'sizes': [7, 8, 9, 10],
   },
 ];
-
-final cart = [
-  {
-    'id': 'SHOE006',
-    'title': 'Reebok Shoes',
-    'price': 72.57,
-    'imageUrl': 'assets/images/shoe_image_shoe.png',
-    'company': 'Reebok',
-    'sizes': 7,
-  }
-];

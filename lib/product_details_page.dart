@@ -21,8 +21,14 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   void onTap() {
     //add product to cart
     //after add Provider using listen:false to state change
-    Provider.of<CartProvider>(context, listen: false)
-        .addProduct(widget.product);
+    Provider.of<CartProvider>(context, listen: false).addProduct({
+      'id': widget.product['id'],
+      'title': widget.product['title'],
+      'price': widget.product['price'],
+      'imageUrl': widget.product['imageUrl'],
+      'company': widget.product['company'],
+      'sizes': '',
+    });
   }
 
   // @override
@@ -112,10 +118,33 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                           //set widget product sizes as selected size and add it to the Cart list
                           widget.product['sizes'] = selectedSize as Object;
                           Provider.of<CartProvider>(context, listen: false)
-                              .addProduct(widget.product);
+                              .addProduct({
+                            'id': widget.product['id'],
+                            'title': widget.product['title'],
+                            'price': widget.product['price'],
+                            'imageUrl': widget.product['imageUrl'],
+                            'company': widget.product['company'],
+                            'sizes': selectedSize,
+                          });
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Product added successfully',
+                              ),
+                            ),
+                          );
                           print(
                               Provider.of<CartProvider>(context, listen: false)
                                   .cart);
+                        } else {
+                          //notify user to select size
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Please select size!',
+                              ),
+                            ),
+                          );
                         }
                       },
                       child: const Row(

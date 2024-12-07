@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app_flutter/cart_provider.dart';
 
-import 'gloabl_variable.dart';
-
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
 
@@ -14,6 +12,7 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
+    final cart = Provider.of<CartProvider>(context).cart;
     //using Provider inherited widget
     return Scaffold(
       appBar: AppBar(
@@ -21,8 +20,7 @@ class _CartPageState extends State<CartPage> {
         title: Text('Cart', style: Theme.of(context).textTheme.bodySmall),
       ),
       body: ListView.builder(
-          itemCount:
-              Provider.of<CartProvider>(context, listen: false).cart.length,
+          itemCount: cart.length,
           itemBuilder: (context, i) {
             final item =
                 Provider.of<CartProvider>(context, listen: false).cart[i];
