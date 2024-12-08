@@ -115,18 +115,20 @@ class _ProductListState extends State<ProductList> {
           //rather using mediaQuery , layoutbuilder has more controlle over the responsive UI
           Expanded(
             child: LayoutBuilder(builder: (context, constraints) {
+              final items =
+                  selectedFilter != 'All' ? selectedProducts : products;
+
+              if (items.isEmpty) {
+                return const Center(child: Text('Sorry! There is no item'));
+              }
               if (constraints.maxWidth > 1080) {
                 return GridView.builder(
-                    itemCount: selectedFilter != 'All'
-                        ? selectedProducts.length
-                        : products.length,
+                    itemCount: items.length,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2, childAspectRatio: 1.75),
                     itemBuilder: (context, i) {
-                      final product = selectedFilter != 'All'
-                          ? selectedProducts[i]
-                          : products[i];
+                      final product = items[i];
 
                       return GestureDetector(
                         onTap: () {
@@ -151,13 +153,9 @@ class _ProductListState extends State<ProductList> {
                     });
               } else {
                 return ListView.builder(
-                  itemCount: selectedFilter != 'All'
-                      ? selectedProducts.length
-                      : products.length,
+                  itemCount: items.length,
                   itemBuilder: (context, i) {
-                    final product = selectedFilter != 'All'
-                        ? selectedProducts[i]
-                        : products[i];
+                    final product = items[i];
 
                     return GestureDetector(
                       onTap: () {
