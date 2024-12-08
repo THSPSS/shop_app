@@ -30,7 +30,10 @@ class _ProductListState extends State<ProductList> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    //inherited widget : any changes of all context and it will be rebuild
+    //no other than listening size
+    //rather mediaQuery using layout builder
+    final size = MediaQuery.sizeOf(context);
 
     const border = OutlineInputBorder(
       borderSide: BorderSide(color: Color.fromRGBO(225, 225, 225, 1)),
@@ -102,37 +105,102 @@ class _ProductListState extends State<ProductList> {
               },
             ),
           ),
+          //layout Builder with constraints (parent widget)
+          //rather using mediaQuery , layoutbuilder has more controlle over the responsive UI
           Expanded(
-            child: GridView.builder(
-                itemCount: products.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: size.width > 650 ? 2 : 1,
-                    childAspectRatio: size.width > 650 ? 2 : 1),
-                itemBuilder: (context, i) {
-                  final product = products[i];
+            child: LayoutBuilder(builder: (context, constraints) {
+              if (constraints.maxWidth > 1080) {
+                return GridView.builder(
+                    itemCount: products.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, childAspectRatio: 1.75),
+                    itemBuilder: (context, i) {
+                      final product = products[i];
 
-                  return GestureDetector(
-                    onTap: () {
-                      //stacking pages
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return ProductDetailsPage(product: product);
-                          },
+                      return GestureDetector(
+                        onTap: () {
+                          //stacking pages
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return ProductDetailsPage(product: product);
+                              },
+                            ),
+                          );
+                        },
+                        child: ProductCard(
+                          title: product['title'].toString(),
+                          price: product['price'] as double,
+                          imageUrl: product['imageUrl'].toString(),
+                          backgroundColor: i.isOdd
+                              ? const Color.fromRGBO(245, 247, 249, 1)
+                              : const Color.fromRGBO(216, 240, 253, 1),
                         ),
                       );
-                    },
-                    child: ProductCard(
-                      title: product['title'].toString(),
-                      price: product['price'] as double,
-                      imageUrl: product['imageUrl'].toString(),
-                      backgroundColor: i.isOdd
-                          ? const Color.fromRGBO(245, 247, 249, 1)
-                          : const Color.fromRGBO(216, 240, 253, 1),
-                    ),
-                  );
-                }),
-          )
+                    });
+              } else {
+                return ListView.builder(
+                  itemCount: products.length,
+                  itemBuilder: (context, i) {
+                    final product = products[i];
+
+                    return GestureDetector(
+                      onTap: () {
+                        //stacking pages
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return ProductDetailsPage(product: product);
+                            },
+                          ),
+                        );
+                      },
+                      child: ProductCard(
+                        title: product['title'].toString(),
+                        price: product['price'] as double,
+                        imageUrl: product['imageUrl'].toString(),
+                        backgroundColor: i.isOdd
+                            ? const Color.fromRGBO(245, 247, 249, 1)
+                            : const Color.fromRGBO(216, 240, 253, 1),
+                      ),
+                    );
+                  },
+                );
+              }
+            }),
+          ),
+          // Expanded(
+          //   child: GridView.builder(
+          //       itemCount: products.length,
+          //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          //           crossAxisCount: size.width > 650 ? 2 : 1,
+          //           childAspectRatio: size.width > 650 ? 2 : 1),
+          //       itemBuilder: (context, i) {
+          //         final product = products[i];
+
+          //         return GestureDetector(
+          //           onTap: () {
+          //             //stacking pages
+          //             Navigator.of(context).push(
+          //               MaterialPageRoute(
+          //                 builder: (context) {
+          //                   return ProductDetailsPage(product: product);
+          //                 },
+          //               ),
+          //             );
+          //           },
+          //           child: ProductCard(
+          //             title: product['title'].toString(),
+          //             price: product['price'] as double,
+          //             imageUrl: product['imageUrl'].toString(),
+          //             backgroundColor: i.isOdd
+          //                 ? const Color.fromRGBO(245, 247, 249, 1)
+          //                 : const Color.fromRGBO(216, 240, 253, 1),
+          //           ),
+          //         );
+          //       }),
+          // )
           // Expanded(
           //   child: ListView.builder(
           //     itemCount: products.length,
