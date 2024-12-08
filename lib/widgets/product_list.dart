@@ -21,6 +21,8 @@ class _ProductListState extends State<ProductList> {
     'Under Armour'
   ];
   String? selectedFilter;
+  //after filtered
+  late List<Map<String, Object>> selectedProducts = [];
 
   @override
   void initState() {
@@ -81,6 +83,10 @@ class _ProductListState extends State<ProductList> {
                     onTap: () {
                       setState(() {
                         selectedFilter = filter;
+                        selectedProducts = products
+                            .where((product) =>
+                                product['company'] == selectedFilter)
+                            .toList();
                       });
                     },
                     child: Chip(
@@ -111,12 +117,16 @@ class _ProductListState extends State<ProductList> {
             child: LayoutBuilder(builder: (context, constraints) {
               if (constraints.maxWidth > 1080) {
                 return GridView.builder(
-                    itemCount: products.length,
+                    itemCount: selectedFilter != 'All'
+                        ? selectedProducts.length
+                        : products.length,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2, childAspectRatio: 1.75),
                     itemBuilder: (context, i) {
-                      final product = products[i];
+                      final product = selectedFilter != 'All'
+                          ? selectedProducts[i]
+                          : products[i];
 
                       return GestureDetector(
                         onTap: () {
@@ -141,9 +151,13 @@ class _ProductListState extends State<ProductList> {
                     });
               } else {
                 return ListView.builder(
-                  itemCount: products.length,
+                  itemCount: selectedFilter != 'All'
+                      ? selectedProducts.length
+                      : products.length,
                   itemBuilder: (context, i) {
-                    final product = products[i];
+                    final product = selectedFilter != 'All'
+                        ? selectedProducts[i]
+                        : products[i];
 
                     return GestureDetector(
                       onTap: () {
